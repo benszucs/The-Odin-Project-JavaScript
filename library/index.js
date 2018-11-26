@@ -82,14 +82,14 @@ function addBookToLibrary() {
   let read = bookRead.checked;
 
   // Check if all the fields have been filled out, if not alert user and terminate the Function
-  if (title === "" || author === "" || pages === "") {
+  if (title.trim() === "" || author.trim() === "" || pages.trim() === "") {
     alert("Please fill in all the fields");
     return;
   }
 
   // We can only get to this point if all the fields have been filled out
   // create a new instance of Book with the user input
-  let book = new Book(title, author, pages, read);
+  let book = new Book(title.trim(), author.trim(), pages.trim(), read.trim());
   // push the new Book to the library array
   myLibrary.push(book);
 
@@ -119,8 +119,7 @@ function toggleReadOnBook(index) {
 }
 
 
-// Add some books initially#
-// push the new Book to the library array
+// Add some books initially
 myLibrary.push(new Book("The Dark Tower: The Gunslinger", "Stephen King", 224, true));
 myLibrary.push(new Book("The Dark Tower II: The Drawing of the Three", "Stephen King", 400, true));
 myLibrary.push(new Book("The Dark Tower III: The Waste Lands", "Stephen King", 512, true));
