@@ -110,3 +110,139 @@ console.log(aBanana.name); // Banana
 // Uses the showNameAndColor method from the Fruit object prototype, which is Plant.prototype. The aBanana object inherits all the properties and methods from both the Plant and Fruit functions.
 console.log(aBanana.showNameAndColor()); // I am a Banana and my color is yellow.
 console.log(aBanana.amIOrganic());
+
+
+
+//Prototype Attribute: Accessing Properties on Objects
+console.log("---------------------------------------------------------")
+
+// getters/setters
+let user = {
+  name: "John",
+  surname: "Smith",
+
+  set fullName(value) {
+    [this.name, this.surname] = value.split(" ");
+  },
+
+  get fullName() {
+    return `${this.name} ${this.surname}`;
+  }
+};
+
+let admin = {
+  __proto__: user,
+  isAdmin: true
+};
+
+console.log(admin.fullName); // John Smith (*)
+
+// setter triggers!
+admin.fullName = "Alice Cooper"; // (**)
+console.log(admin.fullName);
+
+
+
+// Working with prototype
+console.log("---------------------------------------------------------")
+let animal = {
+  jumps: null
+};
+let rabbit = {
+  __proto__: animal,
+  jumps: true
+};
+
+console.log( rabbit.jumps ); // ? (1)
+
+delete rabbit.jumps;
+
+console.log( rabbit.jumps ); // ? (2)
+
+delete animal.jumps;
+
+console.log( rabbit.jumps ); // ? (3)
+
+
+// Searching algorithm
+console.log("---------------------------------------------------------")
+// 1. Use __proto__ to assign prototypes in a way that any property lookup will follow the path: pockets → bed → table → head. For instance, pockets.pen should be 3 (found in table), and bed.glasses should be 1 (found in head).
+// 2. Answer the question: is it faster to get glasses as pockets.glasses or head.glasses? Benchmark if needed.
+let head = {
+  glasses: 1
+};
+
+let table = {
+  pen: 3,
+  __proto__: head
+};
+
+let bed = {
+  sheet: 1,
+  pillow: 2,
+  __proto__: table
+};
+
+let pockets = {
+  money: 2000,
+  __proto__: bed
+};
+
+
+// Why two hamsters are full?
+console.log("---------------------------------------------------------")
+
+let hamster = {
+  eat(food) {
+    this.stomach.push(food);
+  }
+};
+
+let speedy = {
+  stomach: [],
+  __proto__: hamster
+};
+
+let lazy = {
+  stomach: [],
+  __proto__: hamster
+};
+
+// This one found the food
+speedy.eat("apple");
+console.log( speedy.stomach ); // apple
+
+// This one also has it, why? fix please.
+console.log( lazy.stomach ); // apple
+
+
+// Why two hamsters are full?
+console.log("---------------------------------------------------------")
+
+function Student() {
+}
+
+Student.prototype.sayName = function() {
+  console.log(this.name)
+}
+
+function EighthGrader(name) {
+  this.name = name
+  this.grade = 8
+}
+
+// don't do this!!!
+EighthGrader.prototype = Student.prototype
+
+function NinthGrader(name) {
+  this.name = name
+  this.grade = 9
+}
+
+// noooo! not again!
+NinthGrader.prototype = Student.prototype
+
+NinthGrader.prototype.sayName = function() {console.log("HAHAHAHAHAHA")}
+
+const carl = new EighthGrader("carl")
+carl.sayName() //uh oh! this logs "HAHAHAHAHAHA" because we edited the sayName function!
