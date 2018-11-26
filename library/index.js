@@ -1,8 +1,5 @@
 // Array to store books, we will be looping through this in the render() function to display items on the screen
 let myLibrary = [
-  {title: "asd", author: "asd", pages: "123", read: true},
-  {title: "asd", author: "asd", pages: "123", read: false},
-  {title: "asd", author: "asd", pages: "123", read: true},
 ];
 
 
@@ -14,6 +11,7 @@ const bookPages = document.getElementById('pages');
 const bookRead = document.getElementById('read');
 const addBookButton = document.getElementById('addBookButton');
 const removeBookButton = document.getElementsByClassName('removeBookButton');
+const readBookButton = document.getElementsByClassName('readBookButton');
 const bookShelf = document.getElementById('bookShelf');
 
 // Let the event handler of the button be the addBookToLibrary function
@@ -28,10 +26,11 @@ function Book(title, author, pages, read) {
   this.author = author
   this.pages = pages
   this.read = read
-  this.info = function() {
-    return `${title} by ${author}, ${pages} pages, ${read}`
-  }
 }
+
+Book.prototype.toggleRead = function() {
+  this.read = !this.read;
+};
 
 
 // ######################################################################
@@ -49,8 +48,12 @@ function renderBooksToScreen() {
         <li class="value">${book.author}</li>
         <li class="label">Pages</li>
         <li class="value">${book.pages}</li>
-        <li class="">${book.read ? "Read" : "Not Read"}</li>
-        <li><button class="removeBookButton" data-index="${index}">X</button></li>
+        <div class="centreButton">
+          <button class="readBookButton ${book.read ? "read" : "not-read"}" data-index="${index}">
+            ${book.read ? "Read" : "Not Read"}
+          </button>
+        </div>
+        <button class="removeBookButton" data-index="${index}">X</button>
       </ul>
     `);
   }
@@ -58,11 +61,16 @@ function renderBooksToScreen() {
   // Included here because it needs to be reasiigned every time we render the screen the bookShelf again
   for (let i = 0; i < removeBookButton.length; i++) {
     removeBookButton[i].addEventListener("click", function() {
-      removeBookFromLibrary(removeBookButton[i].dataset.index);
+      removeBookFromLibrary(i);
+    });
+  }
+  // add event handlers to all the read/notread buttons
+  for (let i = 0; i < readBookButton.length; i++) {
+    readBookButton[i].addEventListener("click", function() {
+      toggleReadOnBook(i);
     });
   }
 }
-renderBooksToScreen();
 
 // ######################################################################
 // Function to add books to library, taking the user's input
@@ -101,3 +109,26 @@ function removeBookFromLibrary(removeIndex) {
   myLibrary = myLibrary.filter((book, index) => index != removeIndex);
   renderBooksToScreen();
 }
+
+
+// #######################################################################
+// Toggle read
+function toggleReadOnBook(index) {
+  myLibrary[index].toggleRead();
+  renderBooksToScreen();
+}
+
+
+// Add some books initially#
+// push the new Book to the library array
+myLibrary.push(new Book("The Dark Tower: The Gunslinger", "Stephen King", 224, true));
+myLibrary.push(new Book("The Dark Tower II: The Drawing of the Three", "Stephen King", 400, true));
+myLibrary.push(new Book("The Dark Tower III: The Waste Lands", "Stephen King", 512, true));
+myLibrary.push(new Book("The Dark Tower IV: Wizard and Glass", "Stephen King", 787, true));
+myLibrary.push(new Book("The Dark Tower V: Wolves of the Calla", "Stephen King", 714, false));
+myLibrary.push(new Book("The Dark Tower VI: Song of Susannah", "Stephen King", 432, false));
+myLibrary.push(new Book("The Dark Tower VII: The Dark Tower", "Stephen King", 845, false));
+
+
+
+renderBooksToScreen();

@@ -8,27 +8,35 @@
   <title>Library</title>
 </head>
 <body>
+  <h1 class="pageTitle">PROJECT: LIBRARY</h1>
+  <h3 class="pageSubtitle"><a href="https://www.theodinproject.com/courses/javascript/lessons/library?ref=lnav" target="_blank">The Odin Project</a></h3>
   <fieldset>
     <legend>Add book</legend>
     <ul>
-      <li><label for="title">Title</label></li>
-      <li><input type="text" name="title" id="title"></li>
-      <li><label for="author">Author</label></li>
-      <li><input type="text" name="author" id="author"></li>
-      <li><label for="pages">Pages</label></li>
-      <li><input type="number" min="0" name="pages" id="pages"></li>
+      <li>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title">
+      </li>
+      <li>
+        <label for="author">Author</label>
+        <input type="text" name="author" id="author">
+      </li>
+      <li>
+        <label for="pages">Pages</label>
+        <input type="number" min="0" name="pages" id="pages">
+      </li>
       <li>
         <input type="checkbox" name="read" id="read"/>
         <label for="read">Read</label>
       </li>
     </ul>
-    <button id="addBookButton">Add</button>
+    <button id="addBookButton">Add Book</button>
   </fieldset>
 
   <section>
     <div id="bookShelf">
       <!-- Add books here -->
-      
+
     </div>
   </section>
 
