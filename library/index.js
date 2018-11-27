@@ -89,7 +89,7 @@ function addBookToLibrary() {
 
   // We can only get to this point if all the fields have been filled out
   // create a new instance of Book with the user input
-  let book = new Book(title.trim(), author.trim(), pages.trim(), read.trim());
+  let book = new Book(title.trim(), author.trim(), pages.trim(), read);
   // push the new Book to the library array
   myLibrary.push(book);
 
